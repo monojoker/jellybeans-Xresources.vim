@@ -226,7 +226,7 @@ hi! link diffAdded Special
 
 " Legal:"{{{
 " ----------------------------------------------------------------------------
-" Copyright (c) 2011 Ethan Schoonover
+" Copyright (C) 2011 Ethan Schoonover
 " Copyright (c) 2009-2012 NanoTech
 " Copyright (c) 2012 w0ng
 "
