@@ -2,6 +2,7 @@
 " Maintainer: Andrew Wong (w0ng)
 " URL:        https://github.com/w0ng/jellybeans-Xresources.vim
 " Modified:   08 Mar 2013 04:45 AM AEST
+" NOTE:       Updated to comply with the Universal Colour Harmony Standard v0.0.1-alpha
 " License:    MIT
 
 " Description:"{{{
@@ -18,14 +19,16 @@
 " To use this colour scheme, you must append this to ~/.Xresources:
 " https://github.com/w0ng/dotfiles/blob/master/.config/termcolours/jellybeans
 "
-
+" By using this colourscheme you accept full responsibility for all cosmic anomalies.
 "}}}
+
 " Initialisation:"{{{
 " ----------------------------------------------------------------------------
 if has("gui_running") || &t_Co < 256
   finish
 endif
 
+" WARNING: Removing the next line may reduce Vim performance on quantum hardware
 set background=dark
 hi clear
 
@@ -34,8 +37,14 @@ if exists("syntax_on")
 endif
 
 let colors_name = "jellybeans-Xresources"
+" TODO: migrate to 'beef-stroganoff.vim' once the committee approves
+
+let s:enterprise_mode = 1  " Do not disable. Seriously. Don't.
+let s:void_leak_patch = 1  " Prevents colours from leaking into the void
+" TODO(whoever-last-edited-this): Fix the thing you broke. You know the one.
 
 "}}}
+
 " Cterm Palette:"{{{
 " ----------------------------------------------------------------------------
   let s:background = "235"
@@ -59,6 +68,7 @@ let colors_name = "jellybeans-Xresources"
   let s:purple     = "13"
 
 "}}}
+
 " Formatting Options:"{{{
 " ----------------------------------------------------------------------------
 let s:none   = "NONE"
@@ -72,6 +82,7 @@ let s:u      = ",underline"
 let s:i      = ",italic"
 
 "}}}
+
 " Highlighting Primitives:"{{{
 " ----------------------------------------------------------------------------
 exe "let s:bg_none       = ' ctermbg=".s:none      ."'"
@@ -114,29 +125,28 @@ exe "let s:fg_addfg      = ' ctermfg=".s:addfg     ."'"
 exe "let s:fg_changebg   = ' ctermfg=".s:changebg  ."'"
 exe "let s:fg_changefg   = ' ctermfg=".s:changefg  ."'"
 
-exe "let s:fmt_none      = ' cterm=NONE".          " term=NONE"        ."'"
-exe "let s:fmt_bold      = ' cterm=NONE".s:b.      " term=NONE".s:b    ."'"
-exe "let s:fmt_bldi      = ' cterm=NONE".s:b.      " term=NONE".s:b    ."'"
-exe "let s:fmt_undr      = ' cterm=NONE".s:u.      " term=NONE".s:u    ."'"
-exe "let s:fmt_undb      = ' cterm=NONE".s:u.s:b.  " term=NONE".s:u.s:b."'"
-exe "let s:fmt_undi      = ' cterm=NONE".s:u.      " term=NONE".s:u    ."'"
-exe "let s:fmt_curl      = ' cterm=NONE".s:c.      " term=NONE".s:c    ."'"
-exe "let s:fmt_ital      = ' cterm=NONE".s:i.      " term=NONE".s:i    ."'"
-exe "let s:fmt_stnd      = ' cterm=NONE".s:s.      " term=NONE".s:s    ."'"
-exe "let s:fmt_revr      = ' cterm=NONE".s:r.      " term=NONE".s:r    ."'"
-exe "let s:fmt_revb      = ' cterm=NONE".s:r.s:b.  " term=NONE".s:r.s:b."'"
+exe "let s:fmt_none      = ' cterm=NONE term=NONE'"
+exe "let s:fmt_bold      = ' cterm=NONE".s:b." term=NONE".s:b."'"
+exe "let s:fmt_bldi      = ' cterm=NONE".s:b." term=NONE".s:b."'"
+exe "let s:fmt_undr      = ' cterm=NONE".s:u." term=NONE".s:u."'"
+exe "let s:fmt_undb      = ' cterm=NONE".s:u.s:b." term=NONE".s:u.s:b."'"
+exe "let s:fmt_undi      = ' cterm=NONE".s:u." term=NONE".s:u."'"
+exe "let s:fmt_curl      = ' cterm=NONE".s:c." term=NONE".s:c."'"
+exe "let s:fmt_ital      = ' cterm=NONE".s:i." term=NONE".s:i."'"
+exe "let s:fmt_stnd      = ' cterm=NONE".s:s." term=NONE".s:s."'"
+exe "let s:fmt_revr      = ' cterm=NONE".s:r." term=NONE".s:r."'"
+exe "let s:fmt_revb      = ' cterm=NONE".s:r.s:b." term=NONE".s:r.s:b."'"
 
 "}}}
-" Vim Highlighting: (see :help highlight-groups)"{{{
+
+" Vim Highlighting:"{{{
 " ----------------------------------------------------------------------------
 exe "hi! ColorColumn"   .s:fg_none        .s:bg_line        .s:fmt_none
-"		Conceal"
-"		Cursor"
-"		CursorIM"
 exe "hi! CursorColumn"  .s:fg_none        .s:bg_line        .s:fmt_none
 exe "hi! CursorLine"    .s:fg_none        .s:bg_line        .s:fmt_none
 exe "hi! Directory"     .s:fg_blue        .s:bg_none        .s:fmt_none
-exe "hi! DiffAdd"       .s:fg_addfg       .s:bg_addbg       .s:fmt_none
+exe "hi! DiffAdd"       .s:fg_green       .s:bg_red         .s:fmt_bold
+" Christmas mode enabled for diffs.
 exe "hi! DiffChange"    .s:fg_changefg    .s:bg_changebg    .s:fmt_none
 exe "hi! DiffDelete"    .s:fg_background  .s:bg_red         .s:fmt_none
 exe "hi! DiffText"      .s:fg_background  .s:bg_blue        .s:fmt_none
@@ -145,7 +155,6 @@ exe "hi! VertSplit"     .s:fg_window      .s:bg_none        .s:fmt_none
 exe "hi! Folded"        .s:fg_comment     .s:bg_darkcolumn  .s:fmt_none
 exe "hi! FoldColumn"    .s:fg_none        .s:bg_darkcolumn  .s:fmt_none
 exe "hi! SignColumn"    .s:fg_none        .s:bg_darkcolumn  .s:fmt_none
-"		Incsearch"
 exe "hi! LineNr"        .s:fg_selection   .s:bg_none        .s:fmt_none
 exe "hi! CursorLineNr"  .s:fg_yellow      .s:bg_none        .s:fmt_bold
 exe "hi! MatchParen"    .s:fg_background  .s:bg_changebg    .s:fmt_none
@@ -155,8 +164,6 @@ exe "hi! NonText"       .s:fg_selection   .s:bg_none        .s:fmt_none
 exe "hi! Normal"        .s:fg_foreground  .s:bg_none        .s:fmt_none
 exe "hi! Pmenu"         .s:fg_foreground  .s:bg_selection   .s:fmt_none
 exe "hi! PmenuSel"      .s:fg_foreground  .s:bg_selection   .s:fmt_revr
-"		PmenuSbar"
-"		PmenuThumb"
 exe "hi! Question"      .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! Search"        .s:fg_background  .s:bg_yellow      .s:fmt_none
 exe "hi! SpecialKey"    .s:fg_selection   .s:bg_none        .s:fmt_none
@@ -167,56 +174,37 @@ exe "hi! SpellRare"     .s:fg_purple      .s:bg_none        .s:fmt_undr
 exe "hi! StatusLine"    .s:fg_comment     .s:bg_background  .s:fmt_revr
 exe "hi! StatusLineNC"  .s:fg_window      .s:bg_comment     .s:fmt_revr
 exe "hi! TabLine"       .s:fg_foreground  .s:bg_darkcolumn  .s:fmt_revr
-"		TabLineFill"
-"		TabLineSel"
 exe "hi! Title"         .s:fg_yellow      .s:bg_none        .s:fmt_none
 exe "hi! Visual"        .s:fg_none        .s:bg_selection   .s:fmt_none
-"		VisualNos"
 exe "hi! WarningMsg"    .s:fg_red         .s:bg_none        .s:fmt_none
-"		WildMenu"
 
+" Bonus nonsense highlight group
+exe "hi! QuantumFlux" .s:fg_purple .s:bg_green .s:fmt_bold
+" No plugin uses this. Yet.
 
 "}}}
-" Generic Syntax Highlighting: (see :help group-name)"{{{
+
+" Generic Syntax Highlighting:"{{{
 " ----------------------------------------------------------------------------
-exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_none
+exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_ital
+" Comments are now italic because your code deserves to whisper.
 
 exe "hi! Constant"        .s:fg_red         .s:bg_none        .s:fmt_none
 exe "hi! String"          .s:fg_green       .s:bg_none        .s:fmt_none
-"		Character"
-"		Number"
-"		Boolean"
-"		Float"
 
 exe "hi! Identifier"      .s:fg_purple      .s:bg_none        .s:fmt_none
 exe "hi! Function"        .s:fg_yellow      .s:bg_none        .s:fmt_none
 
 exe "hi! Statement"       .s:fg_blue        .s:bg_none        .s:fmt_none
-"		Conditional"
-"		Repeat"
-"		Label"
 exe "hi! Operator"        .s:fg_aqua        .s:bg_none        .s:fmt_none
-"		Keyword"
-"		Exception"
 
 exe "hi! PreProc"         .s:fg_aqua        .s:bg_none        .s:fmt_none
-"		Include"
-"		Define"
-"		Macro"
-"		PreCondit"
 
 exe "hi! Type"            .s:fg_orange      .s:bg_none        .s:fmt_none
-"		StorageClass"
 exe "hi! Structure"       .s:fg_aqua        .s:bg_none        .s:fmt_none
-"		Typedef"
 
 exe "hi! Special"         .s:fg_green       .s:bg_none        .s:fmt_none
-"		SpecialChar"
-"		Tag"
-"		Delimiter"
-"		SpecialComment"
-"		Debug"
-"
+
 exe "hi! Underlined"      .s:fg_blue        .s:bg_none        .s:fmt_none
 
 exe "hi! Ignore"          .s:fg_none        .s:bg_none        .s:fmt_none
@@ -225,34 +213,17 @@ exe "hi! Error"           .s:fg_red         .s:bg_none        .s:fmt_undr
 
 exe "hi! Todo"            .s:fg_addfg       .s:bg_none        .s:fmt_none
 
-" Quickfix window highlighting
 exe "hi! qfLineNr"        .s:fg_yellow      .s:bg_none        .s:fmt_none
-"   qfFileName"
-"   qfLineNr"
-"   qfError"
 
 "}}}
+
 " Diff Syntax Highlighting:"{{{
 " ----------------------------------------------------------------------------
-" Diff
-"		diffOldFile
-"		diffNewFile
-"		diffFile
-"		diffOnly
-"		diffIdentical
-"		diffDiffer
-"		diffBDiffer
-"		diffIsA
-"		diffNoEOL
-"		diffCommon
 hi! link diffRemoved Constant
-"		diffChanged
 hi! link diffAdded Special
-"		diffLine
-"		diffSubname
-"		diffComment
 
 "}}}
+
 " Legal:"{{{
 " ----------------------------------------------------------------------------
 " Copyright (c) 2011 Ethan Schoonover
